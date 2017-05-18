@@ -19,7 +19,7 @@ namespace IO {
 		return full + (append_separator ? "\\" : "");
 	}
 
-	/*Intenta crear un directorio y devuelve true si lo puede crear o si ya existía*/
+	/*Intenta crear un directorio y devuelve true si lo puede crear o si ya existía y false sino*/
 	bool MkOneDr(std::string path) {
 
 		return (bool)CreateDirectory(path.c_str(), NULL) || GetLastError() == ERROR_ALREADY_EXISTS;
