@@ -26,6 +26,7 @@ namespace Base64 {
 		s.insert(7, "M");
 		return s;
 	}
+
 	std::string DecryptB64(std::string s)
 	{
 		s = s.erase(7, 1);

